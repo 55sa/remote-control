@@ -9,7 +9,23 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RemoteLoader implements  IRemoteLoader{
+    private static  RemoteLoader instance;
     HashMap<Integer, RemoteControl> remoteControls = new HashMap<>();
+
+    private RemoteLoader() {
+        // Private constructor to prevent instantiation outside of this class.
+    }
+
+    public static RemoteLoader getInstance() {
+        if (instance == null) {
+            synchronized (RemoteLoader.class) {
+                if (instance == null) {
+                    instance = new RemoteLoader();
+                }
+            }
+        }
+        return instance;
+    }
     @Override
     public void setup(int id, List<DeviceData> devices) {
         RemoteControl remoteControl = new RemoteControl(devices.size());
